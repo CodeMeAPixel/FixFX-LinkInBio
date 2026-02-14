@@ -23,6 +23,8 @@ import {
 	Users,
 	Wrench,
 	ExternalLink,
+	Shield,
+	AlertTriangle,
 } from "lucide-react";
 import { FixFXIcon } from "@/components/icons/FixFXIcon";
 import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
@@ -237,6 +239,7 @@ export default function LinkHubContent({ profile }: LinkHubContentProps) {
 	const tabs = [
 		{ id: null, label: "Featured" },
 		...profile.categories.map((cat) => ({ id: cat.id, label: cat.name })),
+		{ id: "disclaimer", label: "Disclaimer" },
 	];
 
 	return (
@@ -296,12 +299,16 @@ export default function LinkHubContent({ profile }: LinkHubContentProps) {
 					))}
 				</div>
 
-				{/* Links */}
-				<div id="links-section" className="flex flex-col gap-3">
-					{visibleLinks.map((link, index) => (
-						<LinkCard key={link.id} link={link} index={index} categoryId={activeCategory} />
-					))}
-				</div>
+				{/* Links / Disclaimer */}
+				{activeCategory === "disclaimer" ? (
+					<DisclaimerContent />
+				) : (
+					<>
+						<div id="links-section" className="flex flex-col gap-3">
+							{visibleLinks.map((link, index) => (
+								<LinkCard key={link.id} link={link} index={index} categoryId={activeCategory} />
+							))}
+						</div>
 
 				{/* Pagination */}
 				{totalPages > 1 && (
@@ -356,6 +363,9 @@ export default function LinkHubContent({ profile }: LinkHubContentProps) {
 					</div>
 				)}
 
+					</>
+				)}
+
 				{/* Branding */}
 				<div className="mt-8 text-center space-y-2">
 					<p className="text-[10px] text-gray-600/60 font-medium">
@@ -367,6 +377,72 @@ export default function LinkHubContent({ profile }: LinkHubContentProps) {
 				</div>
 			</div>
 		</section>
+	);
+}
+
+function DisclaimerContent() {
+	return (
+		<div id="links-section" className="flex flex-col gap-4 animate-fade-in">
+			{/* Header */}
+			<div className="flex items-center gap-3 mb-2">
+				<div className="size-10 rounded-xl flex items-center justify-center bg-amber-500/15 text-amber-400 border border-amber-500/20">
+					<Shield className="size-5" />
+				</div>
+				<div>
+					<h2 className="text-lg font-semibold text-gray-100">Disclaimer</h2>
+					<p className="text-xs text-gray-500">Legal notices & attribution</p>
+				</div>
+			</div>
+
+			{/* Affiliation */}
+			<div className="rounded-xl bg-white/3 border border-white/6 p-4 space-y-2">
+				<div className="flex items-center gap-2 mb-1">
+					<AlertTriangle className="size-4 text-amber-400 shrink-0" />
+					<h3 className="text-sm font-medium text-gray-200">No Affiliation</h3>
+				</div>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					FixFX is an <span className="text-gray-300 font-medium">independent, community-driven project</span> and is not affiliated with, endorsed by, or officially connected to Cfx.re, Rockstar Games, Take-Two Interactive, or any of their subsidiaries or affiliates.
+				</p>
+			</div>
+
+			{/* Trademarks & Logos */}
+			<div className="rounded-xl bg-white/3 border border-white/6 p-4 space-y-2">
+				<h3 className="text-sm font-medium text-gray-200">Trademarks & Logos</h3>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					All logos, trademarks, brand names, and visual assets displayed on this site are the property of their respective owners. This includes but is not limited to FiveM, RedM, Cfx.re, txAdmin, vMenu, ESX, QBCore, Qbox, VORP, and any other third-party projects referenced.
+				</p>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					Their use here is purely for <span className="text-gray-300 font-medium">identification and informational purposes</span> and does not imply any ownership, sponsorship, or endorsement.
+				</p>
+			</div>
+
+			{/* Content */}
+			<div className="rounded-xl bg-white/3 border border-white/6 p-4 space-y-2">
+				<h3 className="text-sm font-medium text-gray-200">Content & Accuracy</h3>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					While we strive to provide accurate and up-to-date information, FixFX makes no guarantees regarding the completeness or accuracy of the content provided. Documentation, guides, and resources are maintained by community contributors and may not reflect the latest official changes.
+				</p>
+			</div>
+
+			{/* Links */}
+			<div className="rounded-xl bg-white/3 border border-white/6 p-4 space-y-2">
+				<h3 className="text-sm font-medium text-gray-200">External Links</h3>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					This site contains links to external websites and resources that are not operated by FixFX. We have no control over the content or availability of these sites and accept no responsibility for them.
+				</p>
+			</div>
+
+			{/* Contact */}
+			<div className="rounded-xl bg-white/3 border border-white/6 p-4 space-y-2">
+				<h3 className="text-sm font-medium text-gray-200">Contact</h3>
+				<p className="text-xs text-gray-400 leading-relaxed">
+					If you believe any content on this site infringes on your intellectual property or if you have any concerns, please reach out via our{" "}
+					<a href="https://discord.gg/cYauqJfnNK" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">Discord server</a>{" "}
+					or open an issue on{" "}
+					<a href="https://github.com/CodeMeAPixel/FixFX" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">GitHub</a>.
+				</p>
+			</div>
+		</div>
 	);
 }
 
